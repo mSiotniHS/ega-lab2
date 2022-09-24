@@ -1,69 +1,34 @@
-﻿namespace ega_lab2;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ega_lab2;
 
 public sealed class Neighbourhood
 {
-	private BinaryCoding _pivot;
-	private BinaryCoding? _previousPivot;
-	private int _lastVisitedIndex;
+	private readonly BinaryCoding _pivot;
 
-	public Neighbourhood(BinaryCoding pivot, BinaryCoding? previousPivot = null)
+	public Neighbourhood(BinaryCoding pivot)
 	{
 		_pivot = pivot;
-		_previousPivot = previousPivot;
-		_lastVisitedIndex = -1;
 	}
 
-	public BinaryCoding Pivot
+	private BinaryCoding GetNthNeighbour(int n)
 	{
-		set
+		return _pivot.InvertNthBit(n);
+	}
+
+	public IEnumerable<BinaryCoding> GetSequentially()
+	{
+		for (var i = 0; i < _pivot.Length; i++)
 		{
-			_previousPivot = _pivot;
-			_pivot = value;
-			_lastVisitedIndex = -1;
+			yield return GetNthNeighbour(i);
 		}
 	}
 
-	public BinaryCoding? Next() // sequential
+	public IEnumerable<BinaryCoding> GetRandomly()
 	{
-		if (_lastVisitedIndex + 1 == _pivot.Length) return null;
-
-		BinaryCoding next;
-		do
-		{
-			_lastVisitedIndex++;
-			next = _pivot.InvertNthBit(_lastVisitedIndex);
-		} while (_previousPivot is not null && next.Value == _previousPivot.Value);
-
-		return next;
+		var random = new Random();
+		return GetSequentially().OrderBy(_ => random.Next());
 	}
 }
-
-// public interface INextNeighbourStrategy {
-// 	public BinaryCoding? Next();
-// }
-
-// public sealed class RandomNextNeighbourStrategy : INextNeighbourStrategy {}
-
-// public sealed class SequentialNextNeighbourStrategy : INextNeighbourStrategy {
-// 	private Neighbourhood _neighbourhood;
-// 	private int _currentIndex;
-//
-// 	public SequentialNextNeighbourStrategy(Neighbourhood neighbourhood)
-// 	{
-// 		_neighbourhood = neighbourhood;
-// 		_currentIndex = 0;
-// 	}
-//
-// 	public BinaryCoding? Next()
-// 	{
-// 		if (_currentIndex >= _neighbourhood.Pivot.Length) {
-// 			return null;
-// 		}
-//
-// 		var next = _neighbourhood.Pivot.Clone();
-// 		next[_currentIndex] = !next[_currentIndex];
-// 		_currentIndex++;
-//
-// 		return next;
-// 	}
-// }
