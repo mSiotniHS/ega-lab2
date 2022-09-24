@@ -20,7 +20,13 @@ public static class HillClimbingMethod
 			var fitness = domain.CalculateFitness(word);
 
 			Console.WriteLine($"\nИтерация №{i+1}  |  Лучшая кодировка: {bestCoding} ({bestFitness})");
-			Console.WriteLine($"> Отобранный кандидат: {word} ({fitness})");
+			Console.WriteLine("> Соседи лучшей кодировки:");
+			foreach (var neighbour in neighbourhood.GetSequentially())
+			{
+				Console.WriteLine($"> {neighbour} ({domain.CalculateFitness(neighbour)})");
+			}
+
+			Console.WriteLine($">\n> Отобранный кандидат: {word} ({fitness})");
 
 			if (fitness > bestFitness)
 			{
@@ -31,12 +37,7 @@ public static class HillClimbingMethod
 				iterator.Dispose();
 				iterator = neighbourhood.GetRandomly().GetEnumerator();
 
-				Console.WriteLine("> Рассматриваемая приспособленность лучше имеющейся, обновляем");
-				Console.WriteLine("> Соседи новой лучшей кодировки:");
-				foreach (var neighbour in neighbourhood.GetSequentially())
-				{
-					Console.WriteLine($"> {neighbour} ({domain.CalculateFitness(neighbour)})");
-				}
+				Console.WriteLine("> (!) Рассматриваемая приспособленность лучше имеющейся, обновляем");
 			}
 			else
 			{
