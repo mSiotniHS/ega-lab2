@@ -2,7 +2,7 @@
 
 namespace ega_lab2;
 
-public sealed class BinaryCoding
+public record BinaryCoding
 {
 	public int Length { get; }
 	public int Value { get; }
