@@ -18,7 +18,7 @@ internal static class Program
 	{
 		for (var i = 0; i < 32; i++)
 		{
-			var word = domain.PickRandomWord();
+			var word = domain.PickRandom();
 			var fitness = domain.CalculateFitness(word);
 
 			Console.WriteLine($"{word} ({fitness})");

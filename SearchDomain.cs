@@ -15,7 +15,7 @@ public sealed class SearchDomain
 		_maxValue = Convert.ToInt32(Math.Pow(2, WordLength)) - 1;
 	}
 
-	public BinaryCoding PickRandomWord()
+	public BinaryCoding PickRandom()
 	{
 		return new BinaryCoding(Utilities.GetRandom(_maxValue), WordLength);
 	}

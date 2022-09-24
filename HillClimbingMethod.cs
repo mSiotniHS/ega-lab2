@@ -6,7 +6,7 @@ public static class HillClimbingMethod
 {
 	public static (BinaryCoding, int) FindSolution(SearchDomain domain, uint iterationCount)
 	{
-		var bestCoding = domain.PickRandomWord();
+		var bestCoding = domain.PickRandom();
 		var bestFitness = domain.CalculateFitness(bestCoding);
 
 		var neighbourhood = new Neighbourhood(bestCoding);
