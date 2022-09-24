@@ -10,7 +10,7 @@ internal static class Program
 
 		DomainTestDrive(domain);
 
-		var (word, fitness) = HillClimbingMethod.FindSolution(domain, 20);
+		var (word, fitness) = HillClimbingMethod.FindSolution(domain, 10);
 		Console.WriteLine($"\nНайденное решение: {word} ({fitness})");
 	}
 
