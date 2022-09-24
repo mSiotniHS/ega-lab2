@@ -10,16 +10,16 @@ public static class HillClimbingMethod
 		var bestFitness = domain.CalculateFitness(bestCoding);
 
 		var neighbourhood = new Neighbourhood(bestCoding);
+		var iterator = neighbourhood.GetRandomly().GetEnumerator();
 
 		for (var i = 0; i < iterationCount; i++)
 		{
-			Console.WriteLine($"\nИтерация №{i+1}  |  \"Лучшее\" слово: {bestCoding} ({bestFitness})");
+			if (!iterator.MoveNext()) break;
 
-			var word = neighbourhood.Next();
-			if (word is null) break;
-
+			var word = iterator.Current;
 			var fitness = domain.CalculateFitness(word);
 
+			Console.WriteLine($"\nИтерация №{i+1}  |  Лучшая кодировка: {bestCoding} ({bestFitness})");
 			Console.WriteLine($"> Отобранный кандидат: {word} ({fitness})");
 
 			if (fitness > bestFitness)
@@ -27,15 +27,24 @@ public static class HillClimbingMethod
 				bestFitness = fitness;
 				bestCoding = word;
 
-				neighbourhood.Pivot = bestCoding;
+				neighbourhood = new Neighbourhood(bestCoding);
+				iterator.Dispose();
+				iterator = neighbourhood.GetRandomly().GetEnumerator();
 
 				Console.WriteLine("> Рассматриваемая приспособленность лучше имеющейся, обновляем");
+				Console.WriteLine("> Соседи новой лучшей кодировки:");
+				foreach (var neighbour in neighbourhood.GetSequentially())
+				{
+					Console.WriteLine($"> {neighbour} ({domain.CalculateFitness(neighbour)})");
+				}
 			}
 			else
 			{
 				Console.WriteLine("> Рассматриваемая приспособленность не лучше имеющейся, пропускаем");
 			}
 		}
+
+		iterator.Dispose();
 
 		return (bestCoding, bestFitness);
 	}
