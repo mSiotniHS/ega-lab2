@@ -5,7 +5,6 @@ namespace ega_lab2;
 public sealed class SearchDomain
 {
 	private int WordLength { get; }
-	private readonly Random _random = new();
 	private readonly IFitnessCalculator<BinaryCoding, int> _fitnessCalculator;
 	private readonly int _maxValue;
 
@@ -18,7 +17,7 @@ public sealed class SearchDomain
 
 	public BinaryCoding PickRandomWord()
 	{
-		return new BinaryCoding(_random.Next(_maxValue), WordLength);
+		return new BinaryCoding(Utilities.GetRandom(_maxValue), WordLength);
 	}
 
 	public int CalculateFitness(BinaryCoding word)

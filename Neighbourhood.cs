@@ -28,7 +28,6 @@ public sealed class Neighbourhood
 
 	public IEnumerable<BinaryCoding> GetRandomly()
 	{
-		var random = new Random();
-		return GetSequentially().OrderBy(_ => random.Next());
+		return GetSequentially().OrderBy(_ => Utilities.GetRandom());
 	}
 }
