@@ -13,12 +13,6 @@ public record BinaryCoding
 		Length = length ?? Convert.ToInt32(Math.Ceiling(Math.Log(value, 2)));
 	}
 
-	// public BinaryCoding(string binary, int? length)
-	// {
-	// 	Value = Convert.ToInt32(binary, 2);
-	// 	Length = length ?? binary.Length;
-	// }
-
 	public override string ToString()
 	{
 		return Convert.ToString(Value, 2).PadLeft(Length, '0');
@@ -26,8 +20,6 @@ public record BinaryCoding
 
 	public BinaryCoding InvertNthBit(int n)
 	{
-		if (n < 0 || n >= Length) throw new ArgumentOutOfRangeException(nameof(n));
-
 		return GetNthBit(n) ?
 			new BinaryCoding(Value & ~(1 << n), Length) :
 			new BinaryCoding(Value ^ (1 << n), Length);
@@ -35,6 +27,8 @@ public record BinaryCoding
 
 	private bool GetNthBit(int n)
 	{
+		if (n < 0 || n >= Length) throw new ArgumentOutOfRangeException(nameof(n));
+
 		return (Value & (1 << n)) != 0;
 	}
 }
